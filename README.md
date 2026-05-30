@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: your-username/blogpost-readme@v1
+      - uses: hishantik/blogpost-readme@v1
         with:
           feed_list: "https://dev.to/yourusername,https://yourblog.com"
           max_post_count: 5
@@ -102,7 +102,7 @@ jobs:
 ### List (default)
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     layout: list
@@ -118,7 +118,7 @@ Output:
 ### Table
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     layout: table
@@ -151,7 +151,7 @@ Use these variables in your custom template:
 ### Custom Template Example
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     template: "$counter. [$title]($url) - $date - $platform"
@@ -180,7 +180,7 @@ Use the `filter_dates` input to filter posts by date:
 ### Multiple Platforms
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername,https://yourblog.com,https://medium.com/@yourusername"
     max_post_count: 10
@@ -190,7 +190,7 @@ Use the `filter_dates` input to filter posts by date:
 ### Table Layout with Custom Date
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     layout: table
@@ -201,7 +201,7 @@ Use the `filter_dates` input to filter posts by date:
 ### Filter Recent Posts Only
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     filter_dates: "daysAgo/30"
@@ -211,7 +211,7 @@ Use the `filter_dates` input to filter posts by date:
 ### Custom Comment Tags
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     comment_tag_name: "MY-POSTS"
@@ -227,7 +227,7 @@ README:
 ### Multiple README Files
 
 ```yaml
-- uses: your-username/blogpost-readme@v1
+- uses: hishantik/blogpost-readme@v1
   with:
     feed_list: "https://dev.to/yourusername"
     readme_path: "./README.md,./profile/README.md"
