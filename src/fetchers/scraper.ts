@@ -22,7 +22,15 @@ export class ScraperFetcher implements Fetcher {
 				$('article').length > 0 ||
 				$('[itemtype*="BlogPosting"]').length > 0 ||
 				$('[itemtype*="Article"]').length > 0 ||
-				$('.post, .blog-post, .article-item, .entry').length > 0
+				$('.post, .blog-post, .article-item, .entry').length > 0 ||
+				// Links with heading + time (common blog listing pattern)
+				$('a').filter((_, el) => {
+					const $el = $(el);
+					return (
+						$el.find('h1, h2, h3, h4').length > 0 &&
+						$el.find('time').length > 0
+					);
+				}).length > 0
 			);
 		} catch {
 			return false;
@@ -67,6 +75,16 @@ export class ScraperFetcher implements Fetcher {
 			});
 			if (posts.length > 0) return posts;
 		}
+
+		// Strategy 4: Links with heading + time (Astro/Next.js blog listings)
+		$('a').each((_, el) => {
+			const $el = $(el);
+			if ($el.find('h1, h2, h3, h4').length > 0 && $el.find('time').length > 0) {
+				const post = this.extractFromElement($, $el, url);
+				if (post) posts.push(post);
+			}
+		});
+		if (posts.length > 0) return posts;
 
 		return posts;
 	}
@@ -118,8 +136,8 @@ export class ScraperFetcher implements Fetcher {
 			$el.find('h1, h2, h3, h4').first().text().trim() ||
 			$el.find('.title, .post-title, .entry-title').first().text().trim();
 
-		const linkEl = $el.find('a').first();
-		const href = linkEl.attr('href');
+		// Check if element itself is a link, otherwise find child link
+		const href = $el.attr('href') || $el.find('a').first().attr('href');
 
 		if (!title || !href) return null;
 
