@@ -1,17 +1,20 @@
 import type { Fetcher, Post } from '../types.js';
 import { RssFetcher } from './rss.js';
 import { ScraperFetcher } from './scraper.js';
+import { PlatformFetcher } from './platforms.js';
 
 export { RssFetcher } from './rss.js';
 export { ScraperFetcher } from './scraper.js';
+export { PlatformFetcher } from './platforms.js';
 
 export async function fetchPosts(
 	urls: string[],
 	userAgent: string,
 ): Promise<Post[]> {
+	const platformFetcher = new PlatformFetcher(userAgent);
 	const rssFetcher = new RssFetcher(userAgent);
 	const scraperFetcher = new ScraperFetcher(userAgent);
-	const fetchers: Fetcher[] = [rssFetcher, scraperFetcher];
+	const fetchers: Fetcher[] = [platformFetcher, rssFetcher, scraperFetcher];
 
 	const allPosts: Post[] = [];
 

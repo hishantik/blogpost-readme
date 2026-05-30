@@ -14,9 +14,20 @@ function transformDefault(posts: Post[], config: ActionConfig): string {
 			const date = post.date
 				? ` - ${dateFormat(post.date, config.dateFormat)}`
 				: '';
-			return `- [${post.title}](${post.url})${date}`;
+			const platform = post.platform ? ` (${formatPlatform(post.platform)})` : '';
+			return `- [${post.title}](${post.url})${date}${platform}`;
 		})
 		.join('\n');
+}
+
+function formatPlatform(platform: string): string {
+	const names: Record<string, string> = {
+		devto: 'dev.to',
+		hashnode: 'Hashnode',
+		medium: 'Medium',
+		dailydev: 'daily.dev',
+	};
+	return names[platform] || platform;
 }
 
 function transformCustom(posts: Post[], config: ActionConfig): string {
@@ -38,6 +49,7 @@ function transformCustom(posts: Post[], config: ActionConfig): string {
 			result = result.replace(/\$categories/g, post.categories.join(', '));
 			result = result.replace(/\$author/g, post.author || '');
 			result = result.replace(/\$imageUrl/g, post.imageUrl || '');
+			result = result.replace(/\$platform/g, post.platform ? formatPlatform(post.platform) : '');
 			result = result.replace(/\$newline/g, '\n');
 
 			return result;

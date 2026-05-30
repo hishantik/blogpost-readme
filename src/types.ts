@@ -7,6 +7,7 @@ export interface Post {
 	categories: string[];
 	imageUrl?: string;
 	source: 'rss' | 'scrape';
+	platform?: string;
 }
 
 export interface Fetcher {
