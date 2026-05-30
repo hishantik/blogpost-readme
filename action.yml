@@ -1,0 +1,96 @@
+name: 'Blog Post Readme Enhanced'
+author: ''
+description: 'Fetch blog posts from personal websites and display them in your GitHub README'
+
+inputs:
+  feed_list:
+    description: "Comma separated list of RSS feed URLs or website URLs"
+    required: true
+  readme_path:
+    description: "Comma separated paths of the readme files to update"
+    default: './README.md'
+    required: false
+  max_post_count:
+    description: "Maximum number of posts to display"
+    default: '5'
+    required: false
+  template:
+    description: "Template for post list. Variables: $title, $url, $date, $description, $counter, $categories, $author, $imageUrl, $newline"
+    default: 'default'
+    required: false
+  date_format:
+    description: "Date format using dateformat library syntax"
+    default: 'UTC:ddd mmm dd yyyy h:MM TT'
+    required: false
+  disable_sort:
+    description: "Disable sorting by publish date"
+    default: 'false'
+    required: false
+  sort_order:
+    description: "Sort order: 'asc' (oldest first) or 'desc' (newest first)"
+    default: 'desc'
+    required: false
+  filter_comments:
+    description: "Comma separated list of platforms to filter comments"
+    default: 'stackoverflow/Comment by $author/,stackexchange/Comment by $author/'
+    required: false
+  filter_dates:
+    description: "Date filter (e.g., daysAgo/30, currentMonth, currentYear)"
+    default: ''
+    required: false
+  comment_tag_name:
+    description: "Custom tag name for comment markers"
+    default: ''
+    required: false
+  tag_post_pre_newline:
+    description: "Insert newline before/after tags"
+    default: 'false'
+    required: false
+  gh_token:
+    description: "GitHub token with repo scope"
+    default: ${{ github.token }}
+    required: false
+  enable_keepalive:
+    description: "Enable keepalive workflow commits"
+    default: 'true'
+    required: false
+  user_agent:
+    description: "User agent for HTTP requests"
+    default: 'blogpost-readme-enhanced'
+    required: false
+  accept_header:
+    description: "Accept header for HTTP requests"
+    default: 'application/rss+xml, application/xml, text/xml'
+    required: false
+  retry_count:
+    description: "Number of retries for failed requests"
+    default: '0'
+    required: false
+  retry_wait_time:
+    description: "Wait time between retries in seconds"
+    default: '1'
+    required: false
+  disable_html_encoding:
+    description: "Disable HTML encoding in output"
+    default: 'false'
+    required: false
+  remove_duplicates:
+    description: "Remove duplicate posts"
+    default: 'false'
+    required: false
+  skip_commit:
+    description: "Skip git commit (useful for testing)"
+    default: 'false'
+    required: false
+
+outputs:
+  results:
+    description: "JSON array of posts that were added to the readme"
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'rss'
+  color: 'orange'

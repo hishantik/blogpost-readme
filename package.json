@@ -1,0 +1,32 @@
+{
+  "name": "blogpost-readme-enhanced",
+  "version": "1.0.0",
+  "description": "GitHub Action to fetch blog posts from personal websites and display in README",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js",
+    "test": "mocha --require tsx --recursive 'test/**/*.test.ts'",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["github-action", "blog", "rss", "readme"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "cheerio": "^1.0.0",
+    "dateformat": "^5.0.3",
+    "rss-parser": "^3.13.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/mocha": "^10.0.0",
+    "esbuild": "^0.23.0",
+    "mocha": "^10.7.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}
