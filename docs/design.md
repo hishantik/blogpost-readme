@@ -2,7 +2,7 @@
 
 ## Overview
 
-A GitHub Action that fetches blog posts from personal websites (via RSS feeds or web scraping) and displays them in a GitHub README file between comment tags.
+A GitHub Action that fetches blog posts from personal websites and popular platforms (dev.to, Hashnode, Medium, daily.dev) and displays them in a GitHub README file between comment tags.
 
 ## Architecture
 
@@ -46,6 +46,7 @@ interface Post {
   categories: string[];
   imageUrl?: string;
   source: 'rss' | 'scrape';
+  platform?: string;
 }
 
 interface Fetcher {
@@ -74,10 +75,16 @@ interface ActionConfig {
   retryCount: number;
   retryWaitTime: number;
   ghToken: string;
+  layout: 'list' | 'table';
 }
 ```
 
 ## Fetchers
+
+### Platform Fetcher
+- Handles dev.to, Hashnode, Medium, daily.dev
+- Converts profile URLs to RSS feed URLs
+- Uses platform-specific APIs as fallback
 
 ### RSS Fetcher
 - Uses `rss-parser` library
@@ -86,11 +93,12 @@ interface ActionConfig {
 
 ### Web Scraper Fetcher
 - Uses `cheerio` for HTML parsing
-- Discovers posts via: `<article>` elements, Schema.org markup, common CSS classes
+- Discovers posts via: `<article>` elements, Schema.org markup, common CSS classes, links with headings + time
 - Extracts: title, URL, date, description, image
 
 ### Fetcher Chain
-- RSS is tried first (more reliable)
+- Platform fetcher tried first (dev.to, Hashnode, etc.)
+- RSS fetcher tried second
 - Scraper is fallback for sites without RSS
 - Each fetcher is independently testable
 
@@ -105,7 +113,12 @@ interface ActionConfig {
 
 ## Template Variables
 
-`$title`, `$url`, `$date`, `$description`, `$counter`, `$categories`, `$author`, `$imageUrl`, `$newline`
+`$title`, `$url`, `$date`, `$description`, `$counter`, `$categories`, `$author`, `$imageUrl`, `$platform`, `$newline`
+
+## Layout Options
+
+- **list** (default): Bullet point list with links
+- **table**: Markdown table with columns: #, Title, Date, Platform, Author, Description
 
 ## Project Structure
 
@@ -117,6 +130,7 @@ blogpost-readme-enhanced/
 │   ├── types.ts
 │   ├── fetchers/
 │   │   ├── index.ts
+│   │   ├── platforms.ts
 │   │   ├── rss.ts
 │   │   └── scraper.ts
 │   ├── filters.ts
@@ -124,6 +138,7 @@ blogpost-readme-enhanced/
 │   └── output.ts
 ├── test/
 │   ├── fetchers/
+│   │   ├── platforms.test.ts
 │   │   ├── rss.test.ts
 │   │   └── scraper.test.ts
 │   ├── filters.test.ts

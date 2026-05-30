@@ -10,6 +10,7 @@ A GitHub Action that fetches blog posts from personal websites and popular platf
 - **Auto-detection**: Automatically detects platform and uses the best method
 - **Image Extraction**: Extracts featured images from posts
 - **Template System**: Customize post display with variables
+- **Table Layout**: Display posts in a markdown table format
 - **Date Filtering**: Filter posts by date range
 - **Duplicate Removal**: Remove duplicate posts across sources
 
@@ -48,11 +49,37 @@ Add comment tags to your README:
 | `readme_path` | README file path(s) | `./README.md` |
 | `max_post_count` | Max posts to display | `5` |
 | `template` | Post template | `default` |
+| `layout` | Output layout: `list` or `table` | `list` |
 | `date_format` | Date format | `UTC:ddd mmm dd yyyy h:MM TT` |
 | `disable_sort` | Disable date sorting | `false` |
 | `sort_order` | Sort order (asc/desc) | `desc` |
 | `filter_dates` | Date filter | - |
 | `remove_duplicates` | Remove duplicates | `false` |
+
+## Layout Options
+
+### List (default)
+
+```markdown
+- [Post Title](https://example.com/post) - May 30, 2026 (dev.to)
+- [Another Post](https://example.com/post2) - May 28, 2026
+```
+
+### Table
+
+```yaml
+- uses: your-username/blogpost-readme-enhanced@v1
+  with:
+    feed_list: "https://dev.to/yourusername,https://yourblog.com"
+    layout: table
+```
+
+Output:
+
+| # | Title | Date | Platform | Author | Description |
+|---|-------|------|----------|--------|-------------|
+| 1 | [Post Title](url) | 2026-05-30 | dev.to | Author | Description... |
+| 2 | [Another Post](url) | 2026-05-28 | - | - | Description... |
 
 ## Template Variables
 
