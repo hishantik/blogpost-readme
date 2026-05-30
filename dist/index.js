@@ -56352,10 +56352,10 @@ __export(src_exports, {
   runWorkflow: () => runWorkflow
 });
 module.exports = __toCommonJS(src_exports);
-var core3 = __toESM(require_core(), 1);
+var core3 = __toESM(require_core());
 
 // src/config.ts
-var core = __toESM(require_core(), 1);
+var core = __toESM(require_core());
 function getConfig() {
   return {
     feedList: core.getInput("feed_list").split(",").map((s) => s.trim()).filter(Boolean),
@@ -56383,7 +56383,7 @@ function getConfig() {
 }
 
 // src/fetchers/rss.ts
-var import_rss_parser = __toESM(require_rss_parser(), 1);
+var import_rss_parser = __toESM(require_rss_parser());
 var RssFetcher = class {
   parser;
   constructor(userAgent) {
@@ -71017,7 +71017,7 @@ var ScraperFetcher = class {
 };
 
 // src/fetchers/platforms.ts
-var import_rss_parser2 = __toESM(require_rss_parser(), 1);
+var import_rss_parser2 = __toESM(require_rss_parser());
 function detectPlatform(url) {
   const lower = url.toLowerCase();
   if (lower.includes("dev.to")) return "devto";
@@ -71616,9 +71616,9 @@ function truncateString(str, maxLength) {
 }
 
 // src/output.ts
-var import_node_fs = __toESM(require("node:fs"), 1);
-var import_node_path = __toESM(require("node:path"), 1);
-var core2 = __toESM(require_core(), 1);
+var import_node_fs = __toESM(require("node:fs"));
+var import_node_path = __toESM(require("node:path"));
+var core2 = __toESM(require_core());
 var import_node_child_process = require("node:child_process");
 function buildReadme(previousContent, newContent, tagName, tagPostPreNewline) {
   const tagToLookFor = tagName ? `<!-- ${tagName}:` : "<!-- BLOG-POST-LIST:";
