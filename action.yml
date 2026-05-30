@@ -82,6 +82,10 @@ inputs:
     description: "Skip git commit (useful for testing)"
     default: 'false'
     required: false
+  layout:
+    description: "Output layout: 'list' (bullet points) or 'table' (markdown table)"
+    default: 'list'
+    required: false
 
 outputs:
   results:

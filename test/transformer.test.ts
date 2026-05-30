@@ -24,6 +24,7 @@ const defaultConfig: ActionConfig = {
 	retryCount: 0,
 	retryWaitTime: 0,
 	ghToken: '',
+	layout: 'list',
 };
 
 const posts: Post[] = [
@@ -80,6 +81,61 @@ describe('transformPosts', () => {
 		assert.ok(result.includes('1'));
 		assert.ok(result.includes('tech'));
 		assert.ok(result.includes('Author'));
+	});
+
+	it('should transform with table layout', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+		};
+
+		const result = transformPosts(posts, config);
+
+		assert.ok(result.includes('| # | Title | Date | Platform | Author | Description |'));
+		assert.ok(result.includes('|---|-------|------|----------|--------|-------------|'));
+		assert.ok(result.includes('[First Post](https://example.com/first)'));
+		assert.ok(result.includes('[Second Post](https://example.com/second)'));
+		assert.ok(result.includes('Author'));
+	});
+
+	it('should show platform in table when available', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+		};
+
+		const postsWithPlatform: Post[] = [
+			{
+				...posts[0],
+				platform: 'devto',
+			},
+		];
+
+		const result = transformPosts(postsWithPlatform, config);
+
+		assert.ok(result.includes('dev.to'));
+	});
+
+	it('should show dash for missing values in table', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+		};
+
+		const postsWithMissing: Post[] = [
+			{
+				title: 'Post',
+				url: 'https://example.com',
+				description: '',
+				date: null,
+				categories: [],
+				source: 'rss',
+			},
+		];
+
+		const result = transformPosts(postsWithMissing, config);
+
+		assert.ok(result.includes('| - |'));
 	});
 });
 

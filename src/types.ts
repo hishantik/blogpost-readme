@@ -36,4 +36,5 @@ export interface ActionConfig {
 	retryCount: number;
 	retryWaitTime: number;
 	ghToken: string;
+	layout: 'list' | 'table';
 }

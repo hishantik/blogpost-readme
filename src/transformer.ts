@@ -2,6 +2,9 @@ import dateFormat from 'dateformat';
 import type { Post, ActionConfig } from './types.js';
 
 export function transformPosts(posts: Post[], config: ActionConfig): string {
+	if (config.layout === 'table') {
+		return transformTable(posts, config);
+	}
 	if (config.template === 'default') {
 		return transformDefault(posts, config);
 	}
@@ -18,6 +21,26 @@ function transformDefault(posts: Post[], config: ActionConfig): string {
 			return `- [${post.title}](${post.url})${date}${platform}`;
 		})
 		.join('\n');
+}
+
+function transformTable(posts: Post[], config: ActionConfig): string {
+	const rows = posts.map((post, index) => {
+		const num = String(index + 1);
+		const title = `[${escapeHtml(post.title, config)}](${post.url})`;
+		const date = post.date ? dateFormat(post.date, config.dateFormat) : '-';
+		const platform = post.platform ? formatPlatform(post.platform) : '-';
+		const author = post.author || '-';
+		const description = post.description
+			? truncateString(escapeHtml(post.description, config), 80)
+			: '-';
+
+		return `| ${num} | ${title} | ${date} | ${platform} | ${author} | ${description} |`;
+	});
+
+	const header = '| # | Title | Date | Platform | Author | Description |';
+	const separator = '|---|-------|------|----------|--------|-------------|';
+
+	return [header, separator, ...rows].join('\n');
 }
 
 function formatPlatform(platform: string): string {

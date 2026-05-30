@@ -32,5 +32,6 @@ export function getConfig(): ActionConfig {
 		retryCount: Number.parseInt(core.getInput('retry_count') || '0', 10),
 		retryWaitTime: Number.parseInt(core.getInput('retry_wait_time') || '1', 10),
 		ghToken: core.getInput('gh_token') || '',
+		layout: (core.getInput('layout') || 'list') as 'list' | 'table',
 	};
 }
