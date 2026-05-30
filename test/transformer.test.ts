@@ -137,6 +137,48 @@ describe('transformPosts', () => {
 
 		assert.ok(result.includes('| - |'));
 	});
+
+	it('should use custom template columns in table layout', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+			template: '| [$title]($url) | $date |',
+		};
+
+		const result = transformPosts(posts, config);
+
+		assert.ok(result.includes('| Title | Url | Date |'));
+		assert.ok(result.includes('| --- | --- | --- |'));
+		assert.ok(result.includes('[First Post](https://example.com/first)'));
+		assert.ok(result.includes('[Second Post](https://example.com/second)'));
+	});
+
+	it('should auto-wrap template in pipes for table layout', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+			template: '$title - $date',
+		};
+
+		const result = transformPosts(posts, config);
+
+		assert.ok(result.includes('| Title | Date |'));
+		assert.ok(result.includes('First Post'));
+	});
+
+	it('should handle single-column custom table template', () => {
+		const config = {
+			...defaultConfig,
+			layout: 'table' as const,
+			template: '| [$title]($url) |',
+		};
+
+		const result = transformPosts(posts, config);
+
+		assert.ok(result.includes('| Title | Url |'));
+		assert.ok(result.includes('| --- | --- |'));
+		assert.ok(result.includes('[First Post](https://example.com/first)'));
+	});
 });
 
 describe('truncateString', () => {

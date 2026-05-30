@@ -131,6 +131,42 @@ Output:
 | 1 | [Post Title](url) | 2026-05-30 | dev.to | Author | Description... |
 | 2 | [Another Post](url) | 2026-05-28 | - | - | Description... |
 
+### Table with Custom Template
+
+Use `layout: table` with a custom `template` to choose which columns appear. The template variables become column headers automatically.
+
+```yaml
+- uses: hishantik/blogpost-readme@v1
+  with:
+    feed_list: "https://dev.to/yourusername"
+    layout: table
+    template: "| [$title]($url) | $date | $platform | $author | $categories |"
+```
+
+Output:
+
+| Title | Url | Date | Platform | Author | Categories |
+| --- | --- | --- | --- | --- | --- |
+| [Post Title](https://dev.to/post) | https://dev.to/post | 2026-05-30 | dev.to | Author | tech, javascript |
+| [Another Post](https://dev.to/post2) | https://dev.to/post2 | 2026-05-28 | dev.to | Author | nodejs |
+
+You can also create minimal tables with fewer columns:
+
+```yaml
+- uses: hishantik/blogpost-readme@v1
+  with:
+    feed_list: "https://dev.to/yourusername"
+    layout: table
+    template: "| [$title]($url) | $date |"
+```
+
+Output:
+
+| Title | Url | Date |
+| --- | --- | --- |
+| [Post Title](https://dev.to/post) | https://dev.to/post | 2026-05-30 |
+| [Another Post](https://dev.to/post2) | https://dev.to/post2 | 2026-05-28 |
+
 ## Template Variables
 
 Use these variables in your custom template:
@@ -150,6 +186,8 @@ Use these variables in your custom template:
 
 ### Custom Template Example
 
+Custom templates work with both `list` (default) and `table` layouts.
+
 ```yaml
 - uses: hishantik/blogpost-readme@v1
   with:
@@ -157,12 +195,14 @@ Use these variables in your custom template:
     template: "$counter. [$title]($url) - $date - $platform"
 ```
 
-Output:
+Output (with `layout: list`):
 
 ```markdown
 1. [Post Title](https://dev.to/post) - May 30, 2026 - dev.to
 2. [Another Post](https://dev.to/post2) - May 28, 2026 - dev.to
 ```
+
+See [Table with Custom Template](#table-with-custom-template) for using templates with `layout: table`.
 
 ## Date Filters
 
@@ -196,6 +236,17 @@ Use the `filter_dates` input to filter posts by date:
     layout: table
     date_format: "yyyy-mm-dd"
     max_post_count: 5
+```
+
+### Table with Custom Columns
+
+```yaml
+- uses: hishantik/blogpost-readme@v1
+  with:
+    feed_list: "https://dev.to/yourusername"
+    layout: table
+    template: "| [$title]($url) | $date | $platform | $categories |"
+    max_post_count: 10
 ```
 
 ### Filter Recent Posts Only

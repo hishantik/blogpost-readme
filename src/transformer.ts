@@ -3,6 +3,9 @@ import type { Post, ActionConfig } from './types.js';
 
 export function transformPosts(posts: Post[], config: ActionConfig): string {
 	if (config.layout === 'table') {
+		if (config.template !== 'default') {
+			return transformTableWithTemplate(posts, config);
+		}
 		return transformTable(posts, config);
 	}
 	if (config.template === 'default') {
@@ -41,6 +44,51 @@ function transformTable(posts: Post[], config: ActionConfig): string {
 	const separator = '|---|-------|------|----------|--------|-------------|';
 
 	return [header, separator, ...rows].join('\n');
+}
+
+function transformTableWithTemplate(posts: Post[], config: ActionConfig): string {
+	const templateVars = config.template.match(/\$[a-zA-Z]+/g) || [];
+	const headers = templateVars.map((v) => {
+		const name = v.substring(1);
+		return name.charAt(0).toUpperCase() + name.slice(1);
+	});
+
+	const applyTemplate = (post: Post, index: number): string => {
+		let result = config.template;
+		result = result.replace(/\$title/g, sanitizeForTable(escapeHtml(post.title, config)));
+		result = result.replace(/\$url/g, post.url);
+		result = result.replace(
+			/\$date/g,
+			post.date ? dateFormat(post.date, config.dateFormat) : '',
+		);
+		result = result.replace(
+			/\$description/g,
+			sanitizeForTable(escapeHtml(post.description, config)),
+		);
+		result = result.replace(/\$counter/g, String(index + 1));
+		result = result.replace(/\$categories/g, sanitizeForTable(post.categories.join(', ')));
+		result = result.replace(/\$author/g, sanitizeForTable(post.author || ''));
+		result = result.replace(/\$imageUrl/g, post.imageUrl || '');
+		result = result.replace(
+			/\$platform/g,
+			post.platform ? formatPlatform(post.platform) : '',
+		);
+		result = result.replace(/\$newline/g, '\n');
+		return result;
+	};
+
+	const rows = posts.map((post, index) => {
+		const cell = applyTemplate(post, index);
+		if (cell.includes('|')) {
+			return cell.startsWith('|') ? cell : `| ${cell}`;
+		}
+		return `| ${cell} |`;
+	});
+
+	const headerRow = `| ${headers.join(' | ')} |`;
+	const separatorRow = `| ${headers.map(() => '---').join(' | ')} |`;
+
+	return [headerRow, separatorRow, ...rows].join('\n');
 }
 
 function formatPlatform(platform: string): string {
