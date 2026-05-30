@@ -1,5 +1,5 @@
 {
-  "name": "blogpost-readme-enhanced",
+  "name": "blogpost-readme",
   "version": "1.0.0",
   "description": "GitHub Action to fetch blog posts from personal websites and display in README",
   "type": "module",

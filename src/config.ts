@@ -25,7 +25,7 @@ export function getConfig(): ActionConfig {
 		removeDuplicates: core.getInput('remove_duplicates') === 'true',
 		skipCommit: core.getInput('skip_commit') === 'true',
 		enableKeepalive: core.getInput('enable_keepalive') !== 'false',
-		userAgent: core.getInput('user_agent') || 'blogpost-readme-enhanced',
+		userAgent: core.getInput('user_agent') || 'blogpost-readme',
 		acceptHeader:
 			core.getInput('accept_header') ||
 			'application/rss+xml, application/xml, text/xml',

@@ -1,4 +1,4 @@
-name: 'Blog Post Readme Enhanced'
+name: 'Blog Post Readme'
 author: ''
 description: 'Fetch blog posts from dev.to, Hashnode, Medium, daily.dev, and personal websites. Display them in your GitHub README.'
 
@@ -56,7 +56,7 @@ inputs:
     required: false
   user_agent:
     description: "User agent for HTTP requests"
-    default: 'blogpost-readme-enhanced'
+    default: 'blogpost-readme'
     required: false
   accept_header:
     description: "Accept header for HTTP requests"

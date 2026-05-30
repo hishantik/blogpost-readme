@@ -1,4 +1,4 @@
-# Design Spec: Blog Post Readme Enhanced
+# Design Spec: Blog Post Readme
 
 ## Overview
 
@@ -123,7 +123,7 @@ interface ActionConfig {
 ## Project Structure
 
 ```
-blogpost-readme-enhanced/
+blogpost-readme/
 ├── src/
 │   ├── index.ts
 │   ├── config.ts
