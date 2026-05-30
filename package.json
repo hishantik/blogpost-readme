@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --outfile=dist/index.js",
     "test": "mocha --require tsx --recursive 'test/**/*.test.ts'",
     "lint": "biome check",
     "lint:fix": "biome check --write",
