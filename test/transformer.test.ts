@@ -147,8 +147,8 @@ describe('transformPosts', () => {
 
 		const result = transformPosts(posts, config);
 
-		assert.ok(result.includes('| Title | Url | Date |'));
-		assert.ok(result.includes('| --- | --- | --- |'));
+		assert.ok(result.includes('| Title | Date |'));
+		assert.ok(result.includes('| --- | --- |'));
 		assert.ok(result.includes('[First Post](https://example.com/first)'));
 		assert.ok(result.includes('[Second Post](https://example.com/second)'));
 	});
@@ -175,8 +175,8 @@ describe('transformPosts', () => {
 
 		const result = transformPosts(posts, config);
 
-		assert.ok(result.includes('| Title | Url |'));
-		assert.ok(result.includes('| --- | --- |'));
+		assert.ok(result.includes('| Title |'));
+		assert.ok(result.includes('| --- |'));
 		assert.ok(result.includes('[First Post](https://example.com/first)'));
 	});
 });

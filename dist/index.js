@@ -71533,12 +71533,17 @@ function transformTable(posts, config) {
   return [header, separator, ...rows].join("\n");
 }
 function transformTableWithTemplate(posts, config) {
-  const cells = config.template.split("|").map((s) => s.trim());
-  const headerVars = cells.filter((cell) => /^\$[a-zA-Z]+$/.test(cell));
-  const headers = headerVars.map((v) => {
-    const name = v.substring(1);
-    return name.charAt(0).toUpperCase() + name.slice(1);
-  });
+  let headers;
+  if (config.template.includes("|")) {
+    const cells = config.template.split("|").map((s) => s.trim()).filter((s) => s !== "");
+    headers = cells.map((cell) => {
+      const match = cell.match(/\$([a-zA-Z]+)/);
+      return match ? match[1].charAt(0).toUpperCase() + match[1].slice(1) : cell;
+    });
+  } else {
+    const templateVars = config.template.match(/\$[a-zA-Z]+/g) || [];
+    headers = templateVars.map((v) => v.substring(1).charAt(0).toUpperCase() + v.substring(1).slice(1));
+  }
   const applyTemplate = (post, index2) => {
     let result = config.template;
     result = result.replace(/\$title/g, sanitizeForTable(escapeHtml(post.title, config)));
