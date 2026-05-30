@@ -1,12 +1,13 @@
 # Blog Post Readme Enhanced
 
-A GitHub Action that fetches blog posts from personal websites (via RSS feeds or web scraping) and displays them in your GitHub README.
+A GitHub Action that fetches blog posts from personal websites and popular platforms (dev.to, Hashnode, Medium, daily.dev) and displays them in your GitHub README.
 
 ## Features
 
+- **Multi-Platform Support**: Fetch from dev.to, Hashnode, Medium, daily.dev, and any RSS/HTML blog
 - **RSS Feed Support**: Parse RSS 2.0 and Atom feeds
 - **Web Scraping**: Fallback to HTML scraping when RSS isn't available
-- **Auto-detection**: Automatically tries RSS first, then scrapes
+- **Auto-detection**: Automatically detects platform and uses the best method
 - **Image Extraction**: Extracts featured images from posts
 - **Template System**: Customize post display with variables
 - **Date Filtering**: Filter posts by date range
@@ -17,9 +18,20 @@ A GitHub Action that fetches blog posts from personal websites (via RSS feeds or
 ```yaml
 - uses: your-username/blogpost-readme-enhanced@v1
   with:
-    feed_list: "https://yourblog.com/feed,https://yourblog.com"
-    max_post_count: 5
+    feed_list: "https://dev.to/yourusername,https://yourblog.com"
+    max_post_count: 10
 ```
+
+### Supported Platforms
+
+| Platform | URL Format |
+|----------|------------|
+| dev.to | `https://dev.to/username` |
+| Hashnode | `https://hashnode.com/@username` or `https://username.hashnode.dev` |
+| Medium | `https://medium.com/@username` |
+| daily.dev | `https://app.daily.dev/username` |
+| RSS Feed | `https://yourblog.com/feed` |
+| Any website | `https://yourblog.com` (scraping fallback) |
 
 Add comment tags to your README:
 
@@ -52,6 +64,7 @@ Add comment tags to your README:
 - `$categories` - Post categories
 - `$author` - Post author
 - `$imageUrl` - Featured image URL
+- `$platform` - Source platform (dev.to, Hashnode, Medium, daily.dev)
 - `$newline` - Newline character
 
 ## Development

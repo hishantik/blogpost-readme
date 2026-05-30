@@ -1,10 +1,10 @@
 name: 'Blog Post Readme Enhanced'
 author: ''
-description: 'Fetch blog posts from personal websites and display them in your GitHub README'
+description: 'Fetch blog posts from dev.to, Hashnode, Medium, daily.dev, and personal websites. Display them in your GitHub README.'
 
 inputs:
   feed_list:
-    description: "Comma separated list of RSS feed URLs or website URLs"
+    description: "Comma separated list of URLs. Supports dev.to, Hashnode, Medium, daily.dev profiles, RSS feeds, or any website URL"
     required: true
   readme_path:
     description: "Comma separated paths of the readme files to update"
