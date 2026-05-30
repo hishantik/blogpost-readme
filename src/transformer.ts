@@ -47,8 +47,9 @@ function transformTable(posts: Post[], config: ActionConfig): string {
 }
 
 function transformTableWithTemplate(posts: Post[], config: ActionConfig): string {
-	const templateVars = config.template.match(/\$[a-zA-Z]+/g) || [];
-	const headers = templateVars.map((v) => {
+	const cells = config.template.split('|').map((s) => s.trim());
+	const headerVars = cells.filter((cell) => /^\$[a-zA-Z]+$/.test(cell));
+	const headers = headerVars.map((v) => {
 		const name = v.substring(1);
 		return name.charAt(0).toUpperCase() + name.slice(1);
 	});
