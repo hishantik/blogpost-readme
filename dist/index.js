@@ -71662,6 +71662,8 @@ async function commitReadme(readmePath, ghToken) {
   }
   const fullPath = import_node_path.default.resolve(readmePath);
   const relativePath = import_node_path.default.relative(process.cwd(), fullPath);
+  await execCommand("git", ["config", "user.name", "github-actions[bot]"]);
+  await execCommand("git", ["config", "user.email", "github-actions[bot]@users.noreply.github.com"]);
   await execCommand("git", ["add", relativePath]);
   await execCommand("git", ["commit", "-m", "docs: update blog posts [skip-ci]"]);
   await execCommand("git", ["push"]);

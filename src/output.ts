@@ -65,6 +65,8 @@ export async function commitReadme(
 	const fullPath = path.resolve(readmePath);
 	const relativePath = path.relative(process.cwd(), fullPath);
 
+	await execCommand('git', ['config', 'user.name', 'github-actions[bot]']);
+	await execCommand('git', ['config', 'user.email', 'github-actions[bot]@users.noreply.github.com']);
 	await execCommand('git', ['add', relativePath]);
 	await execCommand('git', ['commit', '-m', 'docs: update blog posts [skip-ci]']);
 	await execCommand('git', ['push']);
