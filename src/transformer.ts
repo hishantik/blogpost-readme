@@ -31,7 +31,7 @@ function transformTable(posts: Post[], config: ActionConfig): string {
 		const platform = post.platform ? formatPlatform(post.platform) : '-';
 		const author = post.author || '-';
 		const description = post.description
-			? truncateString(escapeHtml(post.description, config), 80)
+			? truncateString(sanitizeForTable(escapeHtml(post.description, config)), 80)
 			: '-';
 
 		return `| ${num} | ${title} | ${date} | ${platform} | ${author} | ${description} |`;
@@ -78,6 +78,15 @@ function transformCustom(posts: Post[], config: ActionConfig): string {
 			return result;
 		})
 		.join('\n');
+}
+
+function sanitizeForTable(str: string): string {
+	return str
+		.replace(/\n/g, ' ')
+		.replace(/\r/g, '')
+		.replace(/\|/g, '\\|')
+		.replace(/\s+/g, ' ')
+		.trim();
 }
 
 function escapeHtml(str: string, config: ActionConfig): string {
