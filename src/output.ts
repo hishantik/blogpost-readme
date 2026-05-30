@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import * as core from '@actions/core';
-import { exec } from 'node:child_process';
+import { execFile } from 'node:child_process';
 
 export function buildReadme(
 	previousContent: string,
@@ -72,7 +72,7 @@ export async function commitReadme(
 
 function execCommand(cmd: string, args: string[]): Promise<string> {
 	return new Promise((resolve, reject) => {
-		const child = exec(`${cmd} ${args.join(' ')}`, (error, stdout) => {
+		execFile(cmd, args, (error, stdout) => {
 			if (error) {
 				reject(error);
 			} else {
